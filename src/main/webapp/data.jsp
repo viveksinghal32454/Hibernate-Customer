@@ -1,3 +1,7 @@
+<%@page import="java.sql.DriverManager"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.Statement"%>
+<%@page import="java.sql.Connection"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -27,20 +31,33 @@
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-      <td>1234</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-      <td>321</td>
-    </tr>
+  <% 
+  	Connection conn=null;
+  	Statement stmt=null;
+  	ResultSet rs=null;
+  	try
+  	{
+  		Class.forName("com.mysql.jdbc.Driver");
+  		conn=(Connection)DriverManager.getConnection("jdbc:mysql://localhost:3306/customers","root","Vivek@6464");
+  		stmt=conn.createStatement();
+  		
+  		String qry="select * from users";
+  		rs=stmt.executeQuery(qry);
+  		while(rs.next())
+  		{
+  			%>
+  			<tr>
+  				<td><%= rs.getString(1) %></td>
+  				<td><%= rs.getString(2) %></td>
+  				<td><%= rs.getString(3) %></td>
+  				<td><%= rs.getString(5) %></td>
+  				<td><%= rs.getString(4) %></td>
+  			</tr>
+  			<%
+  		}
+  	}catch(Exception ex){}
+  %>
+    
   </tbody>
 </table>
 	</div>
